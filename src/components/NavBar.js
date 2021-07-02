@@ -3,13 +3,12 @@ import { useHistory } from "react-router";
 import {
   Checkbox,
   Grid,
-  Header,
   Icon,
-  Image,
   Menu,
   Segment,
   Sidebar,
 } from "semantic-ui-react";
+import TodoTasks from "./List/TodoTasks";
 
 const NavBar = () => {
   const [visible, setVisible] = React.useState(false);
@@ -69,8 +68,9 @@ const NavBar = () => {
 
           <Sidebar.Pusher>
             <Segment basic>
-              <Header as="h3">Application Content</Header>
-              <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
+              <Segment placeholder>
+                <TodoTasks />
+              </Segment>
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
