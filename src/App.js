@@ -10,6 +10,7 @@ import Done from "./components/Done";
 import { listTasks } from "./graphql/queries";
 import "semantic-ui-css/semantic.min.css";
 import MainHeader from "./components/MainHeader";
+import NavBar from "./components/NavBar";
 Amplify.configure(awsConfig);
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <div className="App">
         <MainHeader />
         <AmplifySignOut />
+        <NavBar />
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={AllTasks} />
