@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import {
   Checkbox,
   Grid,
@@ -12,6 +13,7 @@ import {
 
 const NavBar = () => {
   const [visible, setVisible] = React.useState(false);
+  const history = useHistory();
 
   return (
     <Grid columns={1}>
@@ -37,15 +39,30 @@ const NavBar = () => {
             width="thin"
           >
             <Menu.Item as="a">
-              <Icon name="tasks" />
+              <Icon
+                name="tasks"
+                onClick={() => {
+                  history.push("/");
+                }}
+              />
               AllTasks
             </Menu.Item>
             <Menu.Item as="a">
-              <Icon name="pencil" />
+              <Icon
+                name="pencil"
+                onClick={() => {
+                  history.push("/todo");
+                }}
+              />
               To do Tasks
             </Menu.Item>
             <Menu.Item as="a">
-              <Icon name="sign language" />
+              <Icon
+                name="sign language"
+                onClick={() => {
+                  history.push("/done");
+                }}
+              />
               Done
             </Menu.Item>
           </Sidebar>
