@@ -1,21 +1,43 @@
-type List @model {
-  id: ID!
+type Task
+  # @model(model directive)をつけると、Task型の定義に沿ったAmazon DynamoDB Tableや、CRUDのためのQuery/Mutation/Subscriptionを自動作成します。
+  @model(
+    mutations: {
+      create: "createTask"
+      delete: "deleteTask"
+      update: "updateTask"
+    }
+    # timestamps:...では、デフォルトで自動的に付与されるupdatedAt``createdAtの属性を作らない設定をします。代わりにAWS Timestamp属性のtimestampを用います。
+    timestamps: null
+    subscriptions: { level: public }
+  )
+  # @auth(auth directive)をつけると、Task型に対するQuery/Mutationの認可戦略を実装できます
+  @auth(
+    # {allow: owner, ...では、Taskの作成者(owner)に対して、readとcreateとdelete,updateを許可しています。
+    rules: [
+      {
+        allow: owner
+        ownerField: "owner"
+        provider: userPools
+        operations: [read, create, delete, update]
+      }
+    ]
+  )
+  @key(
+    # name: DynamoDBのインデックス(Global Secondary Index)の名前
+    name: "Owner"
+    # fields: ひとつめがPartition Keyに利用するフィールド、二つ目がSort Keyに利用するフィールドです。ひとつだけ書くと、Partition Keyのみがセットアップされます。
+    # PKにownerを指定することで、あるownerのTaskをリストアップすることができます
+    # timestampをSortKeyにすることで、timestampでの昇降順ソートが可能になります
+    fields: ["owner", "timestamp"]
+    # queryField: getPostのような、GraphQLのqueryの名前
+    queryField: "listTasksByOwner"
+  ) {
+  type: String! # always set to 'task'. used in the SortByTimestamp GSI
+  id: ID
+  # titleはString型のフィールドで、!がついているため必須フィールドです。
   title: String!
   description: String
-  tasks: [Task] @connection(name: "ListTasks")
-}
-
-type Task @model {
-  id: ID!
-  title: String!
-  quantity: Int
-  done: Boolean
-  list: List @connection(name: "ListTasks")
-  actions: [Action] @connection(name: "ListTaskAction")
-}
-
-type Action @model {
-  id: ID!
-  action: String
-  task: Task @connection(name: "ListTaskAction")
+  imageKey: String
+  owner: String
+  timestamp: Int!
 }

@@ -1,77 +1,16 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getList = /* GraphQL */ `
-  query GetList($id: ID!) {
-    getList(id: $id) {
-      id
-      title
-      description
-      tasks {
-        items {
-          id
-          title
-          quantity
-          done
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listLists = /* GraphQL */ `
-  query ListLists(
-    $filter: ModelListFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        tasks {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getTask = /* GraphQL */ `
   query GetTask($id: ID!) {
     getTask(id: $id) {
+      type
       id
       title
-      quantity
-      done
-      list {
-        id
-        title
-        description
-        tasks {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      actions {
-        items {
-          id
-          action
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
+      description
+      imageKey
+      owner
+      timestamp
     }
   }
 `;
@@ -83,75 +22,43 @@ export const listTasks = /* GraphQL */ `
   ) {
     listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        type
         id
         title
-        quantity
-        done
-        list {
-          id
-          title
-          description
-          createdAt
-          updatedAt
-        }
-        actions {
-          nextToken
-        }
-        createdAt
-        updatedAt
+        description
+        imageKey
+        owner
+        timestamp
       }
       nextToken
     }
   }
 `;
-export const getAction = /* GraphQL */ `
-  query GetAction($id: ID!) {
-    getAction(id: $id) {
-      id
-      action
-      task {
-        id
-        title
-        quantity
-        done
-        list {
-          id
-          title
-          description
-          createdAt
-          updatedAt
-        }
-        actions {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listActions = /* GraphQL */ `
-  query ListActions(
-    $filter: ModelActionFilterInput
+export const listTasksByOwner = /* GraphQL */ `
+  query ListTasksByOwner(
+    $owner: String
+    $timestamp: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTaskFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listActions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listTasksByOwner(
+      owner: $owner
+      timestamp: $timestamp
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
+        type
         id
-        action
-        task {
-          id
-          title
-          quantity
-          done
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
+        title
+        description
+        imageKey
+        owner
+        timestamp
       }
       nextToken
     }
