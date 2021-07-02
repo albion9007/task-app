@@ -7,14 +7,16 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import AllTasks from "./components/AllTasks";
 import Tasks from "./components/Tasks";
 import Done from "./components/Done";
-
+import { listTasks } from "./graphql/queries";
+import "semantic-ui-css/semantic.min.css";
+import MainHeader from "./components/MainHeader";
 Amplify.configure(awsConfig);
 
 function App() {
   return (
     <AmplifyAuthenticator>
       <div className="App">
-        <h1>Welcome to Task App</h1>
+        <MainHeader />
         <AmplifySignOut />
         <BrowserRouter>
           <Switch>
