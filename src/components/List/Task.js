@@ -1,11 +1,12 @@
 import API, { graphqlOperation } from "@aws-amplify/api";
 import React, { useState, useEffect } from "react";
 import {
-  List,
-  ListItem,
+  Container,
+  Segment,
+  Grid,
+  Image,
   ListHeader,
   ListDescription,
-  Container,
 } from "semantic-ui-react";
 import { listTasks } from "../../graphql/queries";
 
@@ -23,16 +24,24 @@ function Task(props) {
 
   return (
     <Container attached>
-      <List>
-        {list.map((item) => {
-          return (
-            <ListItem>
-              <ListHeader>{item.title}</ListHeader>
-              <ListDescription>{item.description}</ListDescription>
-            </ListItem>
-          );
-        })}
-      </List>
+      {list.map((item) => {
+        return (
+          <Segment>
+            <Grid columns={2} divided>
+              <Grid.Column stretched width={4}>
+                <Image
+                  size="large"
+                  src="https://react.semantic-ui.com/images/wireframe/image.png"
+                />
+              </Grid.Column>
+              <Grid.Column>
+                <ListHeader as="h1">{item.title}</ListHeader>
+                <ListDescription>{item.description}</ListDescription>
+              </Grid.Column>
+            </Grid>
+          </Segment>
+        );
+      })}
     </Container>
   );
 }
