@@ -7,15 +7,17 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import MainHeader from "./components/MainHeader";
 import NavBar from "./components/NavBar";
-import { Container } from "semantic-ui-react";
+import { Button, Container, Icon } from "semantic-ui-react";
 Amplify.configure(awsConfig);
 
 function App() {
   return (
     <AmplifyAuthenticator>
-      <AmplifySignOut />
-
       <Container>
+        <AmplifySignOut />
+        <Button className="floatingButton">
+          <Icon name="plus" className="floatingButton_icon" />
+        </Button>
         <div className="App">
           <MainHeader />
           <BrowserRouter>
