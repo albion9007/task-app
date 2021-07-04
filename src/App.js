@@ -7,23 +7,27 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import MainHeader from "./components/MainHeader";
 import NavBar from "./components/NavBar";
+import { Container } from "semantic-ui-react";
 Amplify.configure(awsConfig);
 
 function App() {
   return (
     <AmplifyAuthenticator>
-      <div className="App">
-        <MainHeader />
-        <AmplifySignOut />
-        <BrowserRouter>
-          <NavBar />
-          <Switch>
-            <Route exact path="/" />
-            <Route exact path="/todo" />
-            <Route exact path="/done" />
-          </Switch>
-        </BrowserRouter>
-      </div>
+      <AmplifySignOut />
+
+      <Container>
+        <div className="App">
+          <MainHeader />
+          <BrowserRouter>
+            <NavBar />
+            <Switch>
+              <Route exact path="/" />
+              <Route exact path="/todo" />
+              <Route exact path="/done" />
+            </Switch>
+          </BrowserRouter>
+        </div>
+      </Container>
     </AmplifyAuthenticator>
   );
 }
