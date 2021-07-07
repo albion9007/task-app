@@ -10,6 +10,9 @@ import NavBar from "./components/NavBar";
 import {
   Button,
   Container,
+  Form,
+  FormInput,
+  FormTextArea,
   Icon,
   Modal,
   ModalActions,
@@ -19,7 +22,7 @@ import {
 Amplify.configure(awsConfig);
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   function toggleModal(shouldOpen) {
     setIsModalOpen(shouldOpen);
@@ -46,7 +49,21 @@ function App() {
       </Container>
       <Modal open={isModalOpen} dimmer="blurring">
         <ModalHeader>Creat Task</ModalHeader>
-        <ModalContent>Form add</ModalContent>
+        <ModalContent>
+          <Form>
+            <FormInput
+              error={
+                true ? false : { content: "Please add a name to your Task" }
+              }
+              label="Task Title"
+              placeholder="To do Task"
+            ></FormInput>
+            <FormTextArea
+              label="Task Description"
+              placeholder="To do Task in detail"
+            ></FormTextArea>
+          </Form>
+        </ModalContent>
         <ModalActions>
           <Button negative onClick={() => toggleModal(false)}>
             Cancel
