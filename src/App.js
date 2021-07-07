@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useReducer, useState } from "react";
-import Amplify from "aws-amplify";
+import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { AmplifyAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import awsConfig from "./aws-exports";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -19,16 +19,16 @@ import {
   ModalContent,
   ModalHeader,
 } from "semantic-ui-react";
+import { createTask } from "./graphql/mutations";
 Amplify.configure(awsConfig);
 
 const initialState = {
-  id: "",
   title: "",
   description: "",
 };
 
-function App() {
-  function taskReducer(state = initialState, action) {
+const App = () => {
+  const taskReducer = (state = initialState, action) => {
     switch (action.type) {
       case "TITLE_CHANGED":
         return { ...state, title: action.value };
@@ -41,12 +41,23 @@ function App() {
   }
 
   const [state, dispatch] = useReducer(taskReducer, initialState);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  function toggleModal(shouldOpen) {
+  const toggleModal = (shouldOpen) => {
     setIsModalOpen(shouldOpen);
-  }
+  };
 
+
+  const saveTask = async () => {
+    const { title, description } = state;
+    const result = await API.graphql(
+      graphqlOperation(createTask, { input: { title, description }})
+    );
+    toggleModal(false);
+    console.log("Save data with result: ", result);
+  };
+
+  
   return (
     <AmplifyAuthenticator>
       <Container style={{ height: "100vh" }}>
@@ -95,7 +106,7 @@ function App() {
           <Button negative onClick={() => toggleModal(false)}>
             Cancel
           </Button>
-          <Button positive onClick={() => toggleModal(false)}>
+          <Button positive onClick={saveTask}>
             Save
           </Button>
         </ModalActions>
@@ -105,3 +116,5 @@ function App() {
 }
 
 export default App;
+
+
