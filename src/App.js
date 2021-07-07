@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import Amplify from "aws-amplify";
 import { AmplifyAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import awsConfig from "./aws-exports";
@@ -21,7 +21,26 @@ import {
 } from "semantic-ui-react";
 Amplify.configure(awsConfig);
 
+const initialState = {
+  id: "",
+  title: "",
+  description: "",
+};
+
 function App() {
+  function taskReducer(state = initialState, action) {
+    switch (action.type) {
+      case "TITLE_CHANGED":
+        return { ...state, title: action.value };
+      case "DESCRIPTION_CHANGED":
+        return { ...state, description: action.value };
+      default:
+        console.log("Default action for: ", action);
+        return state;
+    }
+  }
+
+  const [state, dispatch] = useReducer(taskReducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   function toggleModal(shouldOpen) {
@@ -57,10 +76,18 @@ function App() {
               }
               label="Task Title"
               placeholder="To do Task"
+              value={state.title}
+              onChange={(e) =>
+                dispatch({ type: "TITLE_CHANGED", value: e.target.value })
+              }
             ></FormInput>
             <FormTextArea
               label="Task Description"
               placeholder="To do Task in detail"
+              value={state.description}
+              onChange={(e) =>
+                dispatch({ type: "DESCRIPTION_CHANGED", value: e.target.value })
+              }
             ></FormTextArea>
           </Form>
         </ModalContent>
