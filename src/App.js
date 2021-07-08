@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { AmplifyAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import awsConfig from "./aws-exports";
@@ -20,6 +20,8 @@ import {
   ModalHeader,
 } from "semantic-ui-react";
 import { createTask } from "./graphql/mutations";
+import { onCreateTask } from "./graphql/subscriptions";
+import { listTasks } from "./graphql/queries";
 Amplify.configure(awsConfig);
 
 const initialState = {
@@ -42,6 +44,7 @@ const taskReducer = (state = initialState, action) => {
 const App = () => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newTask, setNewTask] = useState("")
 
   const toggleModal = (shouldOpen) => {
     setIsModalOpen(shouldOpen);
@@ -59,6 +62,24 @@ const App = () => {
     toggleModal(false);
     console.log("Save data with result: ", result);
   };
+
+  useEffect(() => {
+    if(newTask !==""){
+      setNewTask([newTask, ...listTasks])
+    }
+  }, [newTask]);
+
+  const addTask = (data) => {
+    setNewTask(data.onCreateTask)
+  };
+
+  useEffect(() => {
+    let subscription = API.graphql(graphqlOperation(onCreateTask)).subscribe(
+      {
+        next: ({ provider, value }) => 
+          addTask(value)
+      })
+  }, [])
 
   return (
     <AmplifyAuthenticator>
