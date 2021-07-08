@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import TodoTasks from "./List/TodoTasks";
 
-const NavBar = () => {
+export default function NavBar() {
   const [visible, setVisible] = React.useState(false);
   const history = useHistory();
 
@@ -79,4 +79,3 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;

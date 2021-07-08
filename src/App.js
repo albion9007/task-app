@@ -27,19 +27,19 @@ const initialState = {
   description: "",
 };
 
-const App = () => {
-  const taskReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case "TITLE_CHANGED":
-        return { ...state, title: action.value };
-      case "DESCRIPTION_CHANGED":
-        return { ...state, description: action.value };
-      default:
-        console.log("Default action for: ", action);
-        return state;
-    }
+const taskReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "TITLE_CHANGED":
+      return { ...state, title: action.value };
+    case "DESCRIPTION_CHANGED":
+      return { ...state, description: action.value };
+    default:
+      console.log("Default action for: ", action);
+      return state;
   }
+}
 
+const App = () => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -47,17 +47,19 @@ const App = () => {
     setIsModalOpen(shouldOpen);
   };
 
-
   const saveTask = async () => {
+    
+    const timestamp=Math.floor(Date.now() / 1000);
+    const type = "task";
     const { title, description } = state;
+
     const result = await API.graphql(
-      graphqlOperation(createTask, { input: { title, description }})
+      graphqlOperation(createTask, { input: { title, description,type,timestamp } })
     );
     toggleModal(false);
     console.log("Save data with result: ", result);
   };
 
-  
   return (
     <AmplifyAuthenticator>
       <Container style={{ height: "100vh" }}>

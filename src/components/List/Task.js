@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import { listTasks } from "../../graphql/queries";
 
-function Task(props) {
+export default function Task() {
   const [list, setList] = useState([]);
 
   async function fetchList() {
@@ -45,5 +45,3 @@ function Task(props) {
     </Container>
   );
 }
-
-export default Task;

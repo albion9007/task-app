@@ -1,7 +1,7 @@
 import React from "react";
 import { Header, HeaderContent, Icon } from "semantic-ui-react";
 
-function MainHeader() {
+export default function MainHeader() {
   return (
     <div>
       <Header as="h1" className="mt-1 mb-3 header">
@@ -12,5 +12,3 @@ function MainHeader() {
     </div>
   );
 }
-
-export default MainHeader;
