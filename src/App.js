@@ -27,6 +27,8 @@ Amplify.configure(awsConfig);
 const initialState = {
   title: "",
   description: "",
+  isModalOpen: false,
+
 };
 
 const taskReducer = (state = initialState, action) => {
@@ -35,6 +37,15 @@ const taskReducer = (state = initialState, action) => {
       return { ...state, title: action.value };
     case "DESCRIPTION_CHANGED":
       return { ...state, description: action.value };
+      case "OPEN_MODAL":
+      return { ...state, isModalOpen: true, modalType: "add" };
+      case "CLOSE_MODAL":
+      return {
+        ...state,
+        isModalOpen: false,
+        title: "",
+        description: "",
+      };
     default:
       console.log("Default action for: ", action);
       return state;
@@ -46,9 +57,6 @@ const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTask, setNewTask] = useState("")
 
-  const toggleModal = (shouldOpen) => {
-    setIsModalOpen(shouldOpen);
-  };
 
   const saveTask = async () => {
     
@@ -59,7 +67,7 @@ const App = () => {
     const result = await API.graphql(
       graphqlOperation(createTask, { input: { title, description,type,timestamp } })
     );
-    toggleModal(false);
+    dispatch({ type: "CLOSE_MODAL" });
     console.log("Save data with result: ", result);
   };
 
@@ -85,7 +93,8 @@ const App = () => {
     <AmplifyAuthenticator>
       <Container style={{ height: "100vh" }}>
         <AmplifySignOut />
-        <Button className="floatingButton" onClick={() => toggleModal(true)}>
+        <Button className="floatingButton" onClick={() => dispatch({ type: "OPEN_MODAL" })}
+>
           <Icon name="plus" className="floatingButton_icon" />
         </Button>
         <div className="App">
@@ -100,7 +109,7 @@ const App = () => {
           </BrowserRouter>
         </div>
       </Container>
-      <Modal open={isModalOpen} dimmer="blurring">
+      <Modal open={state.isModalOpen} dimmer="blurring">
         <ModalHeader>Creat Task</ModalHeader>
         <ModalContent>
           <Form>
@@ -126,7 +135,7 @@ const App = () => {
           </Form>
         </ModalContent>
         <ModalActions>
-          <Button negative onClick={() => toggleModal(false)}>
+          <Button negative onClick={() => dispatch({ type: "CLOSE_MODAL" })}>
             Cancel
           </Button>
           <Button positive onClick={saveTask}>

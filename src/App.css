@@ -26,6 +26,8 @@
   right: 30px;
   background-color: var(--amplify-primary-color);
   color: var(--amplify-secondary-contrast);
+  display:block;
+  z-index:9998;
 }
 
 .ui.button.floatingButton:hover {
