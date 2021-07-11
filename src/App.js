@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { AmplifyAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import awsConfig from "./aws-exports";
@@ -21,7 +21,6 @@ import {
 } from "semantic-ui-react";
 import { createTask } from "./graphql/mutations";
 import { onCreateTask } from "./graphql/subscriptions";
-import { listTasks } from "./graphql/queries";
 Amplify.configure(awsConfig);
 
 const initialState = {
@@ -54,8 +53,6 @@ const taskReducer = (state = initialState, action) => {
 
 const App = () => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newTask, setNewTask] = useState("")
 
 
   const saveTask = async () => {
@@ -71,22 +68,30 @@ const App = () => {
     console.log("Save data with result: ", result);
   };
 
-  useEffect(() => {
-    if(newTask !==""){
-      setNewTask([newTask, ...listTasks])
-    }
-  }, [newTask]);
+  // useEffect(() => {
+  //   if(newTask !==""){
+  //     setNewTask([newTask, ...listTasks])
+  //   }
+  // }, [newTask]);
 
-  const addTask = (data) => {
-    setNewTask(data.onCreateTask)
-  };
+  // const addTask = (data) => {
+  //   setNewTask(data.onCreateTask)
+  // };
 
   useEffect(() => {
     let subscription = API.graphql(graphqlOperation(onCreateTask)).subscribe(
       {
-        next: ({ provider, value }) => 
-          addTask(value)
+        next: ({ provider, value }) => {
+          console.log(value)
+          dispatch({
+            type: "UPDATE_LISTS",
+            value: [value.data.onCreateTask],
+          });
+        }
       })
+      return () => {
+        subscription.unsubscribe();
+      };
   }, [])
 
   return (
