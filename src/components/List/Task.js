@@ -1,5 +1,5 @@
 import API, { graphqlOperation } from "@aws-amplify/api";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import {
   Container,
   Segment,
@@ -7,10 +7,13 @@ import {
   Image,
   ListHeader,
   ListDescription,
+  Icon,
 } from "semantic-ui-react";
 import { listTasks } from "../../graphql/queries";
 
-export default function Task() {
+export default function Task(props) {
+  const dispatch = useReducer();
+  const { id } = props;
   const [list, setList] = useState([]);
 
   async function fetchList() {
@@ -36,7 +39,9 @@ export default function Task() {
               </Grid.Column>
               <Grid.Column>
                 <ListHeader as="h1">{item.title}</ListHeader>
-                <ListDescription>{item.description}</ListDescription>
+                <ListDescription>{item.description}
+                <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: id })}/>
+                </ListDescription>
               </Grid.Column>
             </Grid>
           </Segment>

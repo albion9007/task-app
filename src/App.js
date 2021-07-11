@@ -19,7 +19,7 @@ import {
   ModalContent,
   ModalHeader,
 } from "semantic-ui-react";
-import { createTask } from "./graphql/mutations";
+import { createTask, deleteTask } from "./graphql/mutations";
 import { onCreateTask } from "./graphql/subscriptions";
 Amplify.configure(awsConfig);
 
@@ -36,9 +36,12 @@ const taskReducer = (state = initialState, action) => {
       return { ...state, title: action.value };
     case "DESCRIPTION_CHANGED":
       return { ...state, description: action.value };
-      case "OPEN_MODAL":
+    case "DELETE_TASK":
+      console.log(action.value);
+      return { ...state };
+    case "OPEN_MODAL":
       return { ...state, isModalOpen: true, modalType: "add" };
-      case "CLOSE_MODAL":
+    case "CLOSE_MODAL":
       return {
         ...state,
         isModalOpen: false,
@@ -68,16 +71,6 @@ const App = () => {
     console.log("Save data with result: ", result);
   };
 
-  // useEffect(() => {
-  //   if(newTask !==""){
-  //     setNewTask([newTask, ...listTasks])
-  //   }
-  // }, [newTask]);
-
-  // const addTask = (data) => {
-  //   setNewTask(data.onCreateTask)
-  // };
-
   useEffect(() => {
     let subscription = API.graphql(graphqlOperation(onCreateTask)).subscribe(
       {
@@ -94,12 +87,12 @@ const App = () => {
       };
   }, [])
 
+
   return (
     <AmplifyAuthenticator>
       <Container style={{ height: "100vh" }}>
         <AmplifySignOut />
-        <Button className="floatingButton" onClick={() => dispatch({ type: "OPEN_MODAL" })}
->
+        <Button className="floatingButton" onClick={() => dispatch({ type: "OPEN_MODAL" })}>
           <Icon name="plus" className="floatingButton_icon" />
         </Button>
         <div className="App">
