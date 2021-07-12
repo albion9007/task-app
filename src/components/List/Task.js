@@ -11,10 +11,28 @@ import {
 } from "semantic-ui-react";
 import { listTasks } from "../../graphql/queries";
 
+const initialState = {
+  id: "",
+  title: "",
+  description: "",
+};
+
+const taskReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "DELETE_TASK":
+      console.log(action.value);
+      return { ...state };
+    default:
+      console.log("Default action for: ", action);
+      return state;
+  }
+}
+
 export default function Task(props) {
-  const dispatch = useReducer();
   const { id } = props;
   const [list, setList] = useState([]);
+  const [state, dispatch] = useReducer(taskReducer, initialState);
+
 
   async function fetchList() {
     const { data } = await API.graphql(graphqlOperation(listTasks));

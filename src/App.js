@@ -19,7 +19,7 @@ import {
   ModalContent,
   ModalHeader,
 } from "semantic-ui-react";
-import { createTask, deleteTask } from "./graphql/mutations";
+import { createTask } from "./graphql/mutations";
 import { onCreateTask } from "./graphql/subscriptions";
 Amplify.configure(awsConfig);
 
