@@ -11,10 +11,8 @@ import {
 } from "semantic-ui-react";
 import { listTasks } from "../../graphql/queries";
 
-export default function Task(props) {
-  const { tasks, dispatch } = props;
-  const [task, setTask] = useState([{title:"test",description:"説明"}]);
-  console.log(props)
+export default function Task({dispatch}) {
+  const [task, setTask] = useState([]);
 
   async function fetchList() {
     const { data } = await API.graphql(graphqlOperation(listTasks));
@@ -40,7 +38,7 @@ export default function Task(props) {
               <Grid.Column>
                 <ListHeader as="h1">{item.title}</ListHeader>
                 <ListDescription>{item.description}
-                <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: tasks.id })}/>
+                <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: item.id })}/>
                 </ListDescription>
               </Grid.Column>
             </Grid>

@@ -19,7 +19,7 @@ import {
   ModalContent,
   ModalHeader,
 } from "semantic-ui-react";
-import { createTask } from "./graphql/mutations";
+import { createTask, deleteTask } from "./graphql/mutations";
 import { onCreateTask } from "./graphql/subscriptions";
 Amplify.configure(awsConfig);
 
@@ -29,7 +29,6 @@ const initialState = {
   description: "",
   tasks: [],
   isModalOpen: false,
-
 };
 
 const taskReducer = (state = initialState, action) => {
@@ -40,6 +39,7 @@ const taskReducer = (state = initialState, action) => {
       return { ...state, description: action.value };
     case "DELETE_TASK":
       console.log(action.value);
+      deleteTaskById(action.value)
       return { ...state };
     case "OPEN_MODAL":
       return { ...state, isModalOpen: true, modalType: "add" };
@@ -56,10 +56,17 @@ const taskReducer = (state = initialState, action) => {
   }
 }
 
+async function deleteTaskById(id) {
+  const result = await API.graphql(
+    graphqlOperation(deleteTask, { input: { id } })
+  );
+  console.log("deleted", result);
+}
+
 const App = () => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
-
+console.log(state.tasks)
   const saveTask = async () => {
     
     const timestamp=Math.floor(Date.now() / 1000);
