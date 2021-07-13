@@ -12,12 +12,13 @@ import {
 import { listTasks } from "../../graphql/queries";
 
 export default function Task(props) {
-  const [list, setList] = useState([]);
-  const { id, title, description, dispatch } = props;
+  const { tasks, dispatch } = props;
+  const [task, setTask] = useState([{title:"test",description:"説明"}]);
+  console.log(props)
 
   async function fetchList() {
     const { data } = await API.graphql(graphqlOperation(listTasks));
-    setList(data.listTasks.items);
+    setTask(data.listTasks.items);
     console.log(data);
   }
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Task(props) {
 
   return (
     <Container attached>
-      {list.map((item) => {
+      {task.map((item) => {
         return (
           <Segment>
             <Grid columns={2} divided>
@@ -39,7 +40,7 @@ export default function Task(props) {
               <Grid.Column>
                 <ListHeader as="h1">{item.title}</ListHeader>
                 <ListDescription>{item.description}
-                <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: props })}/>
+                <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: tasks.id })}/>
                 </ListDescription>
               </Grid.Column>
             </Grid>

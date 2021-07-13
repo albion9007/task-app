@@ -27,7 +27,7 @@ const initialState = {
   id: "",
   title: "",
   description: "",
-  lists: [],
+  tasks: [],
   isModalOpen: false,
 
 };
@@ -100,7 +100,7 @@ const App = () => {
         <div className="App">
           <MainHeader />
           <BrowserRouter>
-            <NavBar dispatch={dispatch}/>
+            <NavBar tasks={state.tasks} dispatch={dispatch}/>
             <Switch>
               <Route exact path="/" />
               <Route exact path="/todo" />

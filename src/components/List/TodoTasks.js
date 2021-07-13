@@ -1,10 +1,10 @@
 import React from "react";
 import Task from "./Task";
 
-function TodoTasks({dispatch}) {
+function TodoTasks({tasks, dispatch}) {
   return (
     <div>
-      <Task dispatch={dispatch}/>
+      <Task tasks={tasks} dispatch={dispatch}/>
     </div>
   );
 }
