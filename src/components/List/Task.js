@@ -1,5 +1,5 @@
 import API, { graphqlOperation } from "@aws-amplify/api";
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Segment,
@@ -11,32 +11,9 @@ import {
 } from "semantic-ui-react";
 import { listTasks } from "../../graphql/queries";
 
-const initialState = {
-  id: "",
-  title: "",
-  description: "",
-};
-
-const taskReducer = (state = initialState, action) => {
-  // console.log(state)
-  // console.log(action)
-
-  switch (action.type) {
-    case "DELETE_TASK":
-      console.log(action.value);
-      return { ...state };
-    default:
-      console.log("Default action for: ", action);
-      return state;
-  }
-}
-
 export default function Task(props) {
-  const { id } = props;
-  // const { id = 1 } = props;
   const [list, setList] = useState([]);
-  const [state, dispatch] = useReducer(taskReducer, initialState);
-console.log(props)
+  const { id, title, description, dispatch } = props;
 
   async function fetchList() {
     const { data } = await API.graphql(graphqlOperation(listTasks));

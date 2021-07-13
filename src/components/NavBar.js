@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import TodoTasks from "./List/TodoTasks";
 
-export default function NavBar() {
+export default function NavBar({dispatch}) {
   const [visible, setVisible] = React.useState(false);
   const history = useHistory();
 
@@ -69,7 +69,7 @@ export default function NavBar() {
           <Sidebar.Pusher>
             <Segment basic>
               <Segment placeholder>
-                <TodoTasks />
+                <TodoTasks dispatch={dispatch}/>
               </Segment>
             </Segment>
           </Sidebar.Pusher>
@@ -78,4 +78,3 @@ export default function NavBar() {
     </Grid>
   );
 };
-

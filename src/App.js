@@ -24,8 +24,10 @@ import { onCreateTask } from "./graphql/subscriptions";
 Amplify.configure(awsConfig);
 
 const initialState = {
+  id: "",
   title: "",
   description: "",
+  lists: [],
   isModalOpen: false,
 
 };
@@ -98,7 +100,7 @@ const App = () => {
         <div className="App">
           <MainHeader />
           <BrowserRouter>
-            <NavBar />
+            <NavBar dispatch={dispatch}/>
             <Switch>
               <Route exact path="/" />
               <Route exact path="/todo" />
