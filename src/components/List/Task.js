@@ -18,6 +18,9 @@ const initialState = {
 };
 
 const taskReducer = (state = initialState, action) => {
+  // console.log(state)
+  // console.log(action)
+
   switch (action.type) {
     case "DELETE_TASK":
       console.log(action.value);
@@ -30,9 +33,10 @@ const taskReducer = (state = initialState, action) => {
 
 export default function Task(props) {
   const { id } = props;
+  // const { id = 1 } = props;
   const [list, setList] = useState([]);
   const [state, dispatch] = useReducer(taskReducer, initialState);
-
+console.log(props)
 
   async function fetchList() {
     const { data } = await API.graphql(graphqlOperation(listTasks));
@@ -58,7 +62,7 @@ export default function Task(props) {
               <Grid.Column>
                 <ListHeader as="h1">{item.title}</ListHeader>
                 <ListDescription>{item.description}
-                <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: id })}/>
+                <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: props })}/>
                 </ListDescription>
               </Grid.Column>
             </Grid>
