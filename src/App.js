@@ -33,7 +33,6 @@ const initialState = {
 };
 
 const taskReducer = (state = initialState, action) => {
-  let newList;
   switch (action.type) {
     case "TITLE_CHANGED":
       return { ...state, title: action.value };
@@ -45,9 +44,6 @@ const taskReducer = (state = initialState, action) => {
       console.log(action.value);
       deleteTaskById(action.value)
       return { ...state };
-    case "DELETE_TASK_RESULT":
-      newList = state.lists.filter((item) => item.id !== action.value);
-      return { ...state, tasks: newList };
     case "OPEN_MODAL":
       return { ...state, isModalOpen: true, modalType: "add" };
     case "CLOSE_MODAL":
