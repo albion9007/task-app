@@ -21,6 +21,7 @@ import {
 } from "semantic-ui-react";
 import { createTask, deleteTask } from "./graphql/mutations";
 import { onCreateTask } from "./graphql/subscriptions";
+import { listTasks } from "./graphql/queries";
 Amplify.configure(awsConfig);
 
 const initialState = {
@@ -32,15 +33,21 @@ const initialState = {
 };
 
 const taskReducer = (state = initialState, action) => {
+  let newList;
   switch (action.type) {
     case "TITLE_CHANGED":
       return { ...state, title: action.value };
     case "DESCRIPTION_CHANGED":
       return { ...state, description: action.value };
+    case "UPDATE_TASK":
+      return { ...state, tasks: [...action.value, ...state.tasks] };
     case "DELETE_TASK":
       console.log(action.value);
       deleteTaskById(action.value)
       return { ...state };
+    case "DELETE_TASK_RESULT":
+      newList = state.lists.filter((item) => item.id !== action.value);
+      return { ...state, tasks: newList };
     case "OPEN_MODAL":
       return { ...state, isModalOpen: true, modalType: "add" };
     case "CLOSE_MODAL":
@@ -66,13 +73,10 @@ async function deleteTaskById(id) {
 const App = () => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
-console.log(state.tasks)
   const saveTask = async () => {
-    
     const timestamp=Math.floor(Date.now() / 1000);
     const type = "task";
     const { title, description } = state;
-
     const result = await API.graphql(
       graphqlOperation(createTask, { input: { title, description,type,timestamp } })
     );
@@ -80,22 +84,31 @@ console.log(state.tasks)
     console.log("Save data with result: ", result);
   };
 
+  const fetchTask = async () => {
+    const { data } = await API.graphql(graphqlOperation(listTasks));
+    dispatch({ type: "UPDATE_TASK", value: data.listTasks.items });
+  }
+
   useEffect(() => {
-    let subscription = API.graphql(graphqlOperation(onCreateTask)).subscribe(
+    fetchTask();
+  }, []);
+
+  useEffect(() => {
+    const createTaskSub = API.graphql(graphqlOperation(onCreateTask)).subscribe(
       {
-        next: ({ provider, value }) => {
-          console.log(value)
+        next: ({ _, value }) => {
+          console.log("onCreateTask called");
           dispatch({
-            type: "UPDATE_LISTS",
+            type: "UPDATE_TASK",
             value: [value.data.onCreateTask],
           });
-        }
-      })
-      return () => {
-        subscription.unsubscribe();
-      };
-  }, [])
-
+        },
+      }
+    );
+    return () => {
+      createTaskSub.unsubscribe();
+    };
+  }, []);
 
   return (
     <AmplifyAuthenticator>
