@@ -10,18 +10,12 @@ import NavBar from "./components/NavBar";
 import {
   Button,
   Container,
-  Form,
-  FormInput,
-  FormTextArea,
   Icon,
-  Modal,
-  ModalActions,
-  ModalContent,
-  ModalHeader,
 } from "semantic-ui-react";
-import { createTask, deleteTask } from "./graphql/mutations";
+import { deleteTask } from "./graphql/mutations";
 import { onCreateTask, onDeleteTask } from "./graphql/subscriptions";
 import { listTasks } from "./graphql/queries";
+import TaskModal from "./components/modal/TaskModal";
 Amplify.configure(awsConfig);
 
 const initialState = {
@@ -33,7 +27,7 @@ const initialState = {
 };
 
 const taskReducer = (state = initialState, action) => {
-  // let newTask;
+  let newTask;
   switch (action.type) {
     case "TITLE_CHANGED":
       return { ...state, title: action.value };
@@ -48,21 +42,21 @@ const taskReducer = (state = initialState, action) => {
     // case "DELETE_TASK_RESULT":
     //   newTask = state.lists.filter((item) => item.id !== action.value);
     //   return { ...state, tasks: newTask };
-    // case "EDIT_TASK": {
-    //   const newValue = { ...action.value };
-    //   delete newValue.children;
-    //   delete newValue.listItems;
-    //   delete newValue.dispatch;
-    //   console.log(action.value);
-    //   return {
-    //     ...state,
-    //     isModalOpen: true,
-        // modalType: "edit",
-        // id: newValue.id,
-      //   title: newValue.title,
-      //   description: newValue.description,
-      // };
-    // }
+    case "EDIT_TASK": {
+      const newValue = { ...action.value };
+      delete newValue.children;
+      delete newValue.listItems;
+      delete newValue.dispatch;
+      console.log(action.value);
+      return {
+        ...state,
+        isModalOpen: true,
+        modalType: "edit",
+        id: newValue.id,
+        title: newValue.title,
+        description: newValue.description,
+      };
+    }
     case "OPEN_MODAL":
       return { ...state, isModalOpen: true, modalType: "add" };
     case "CLOSE_MODAL":
@@ -88,17 +82,6 @@ async function deleteTaskById(id) {
 
 const App = () => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
-
-  const saveTask = async () => {
-    const timestamp=Math.floor(Date.now() / 1000);
-    const type = "task";
-    const { title, description } = state;
-    const result = await API.graphql(
-      graphqlOperation(createTask, { input: { title, description,type,timestamp } })
-    );
-    dispatch({ type: "CLOSE_MODAL" });
-    console.log("Save data with result: ", result);
-  };
 
   const fetchTask = async () => {
     const { data } = await API.graphql(graphqlOperation(listTasks));
@@ -157,40 +140,7 @@ const App = () => {
           </BrowserRouter>
         </div>
       </Container>
-      <Modal open={state.isModalOpen} dimmer="blurring">
-        <ModalHeader>Creat Task</ModalHeader>
-        <ModalContent>
-          <Form>
-            <FormInput
-              error={
-                true ? false : { content: "Please add a name to your Task" }
-              }
-              label="Task Title"
-              placeholder="To do Task"
-              value={state.title}
-              onChange={(e) =>
-                dispatch({ type: "TITLE_CHANGED", value: e.target.value })
-              }
-            ></FormInput>
-            <FormTextArea
-              label="Task Description"
-              placeholder="To do Task in detail"
-              value={state.description}
-              onChange={(e) =>
-                dispatch({ type: "DESCRIPTION_CHANGED", value: e.target.value })
-              }
-            ></FormTextArea>
-          </Form>
-        </ModalContent>
-        <ModalActions>
-          <Button negative onClick={() => dispatch({ type: "CLOSE_MODAL" })}>
-            Cancel
-          </Button>
-          <Button positive onClick={saveTask}>
-            Save
-          </Button>
-        </ModalActions>
-      </Modal>
+      <TaskModal state={state} dispatch={dispatch}/>
     </AmplifyAuthenticator>
   );
 }

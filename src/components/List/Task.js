@@ -39,11 +39,11 @@ export default function Task(props) {
               <Grid.Column>
                 <ListHeader as="h1">{item.title}</ListHeader>
                 <ListDescription>{item.description}
-                {/* <Icon
+                <Icon
                   name="edit"
                   className="ml-3"
                   onClick={() => dispatch({ type: "EDIT_TASK", value: props })}
-                /> */}
+                />
                 <Icon name="trash" className="ml-3" onClick={() => dispatch({ type: "DELETE_TASK", value: item.id })}/>
                 </ListDescription>
               </Grid.Column>
