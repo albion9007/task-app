@@ -33,7 +33,7 @@ const initialState = {
 };
 
 const taskReducer = (state = initialState, action) => {
-  let newTask;
+  // let newTask;
   switch (action.type) {
     case "TITLE_CHANGED":
       return { ...state, title: action.value };
@@ -45,9 +45,24 @@ const taskReducer = (state = initialState, action) => {
       console.log(action.value);
       deleteTaskById(action.value)
       return { ...state };
-    case "DELETE_TASK_RESULT":
-      newTask = state.lists.filter((item) => item.id !== action.value);
-      return { ...state, tasks: newTask };
+    // case "DELETE_TASK_RESULT":
+    //   newTask = state.lists.filter((item) => item.id !== action.value);
+    //   return { ...state, tasks: newTask };
+    // case "EDIT_TASK": {
+    //   const newValue = { ...action.value };
+    //   delete newValue.children;
+    //   delete newValue.listItems;
+    //   delete newValue.dispatch;
+    //   console.log(action.value);
+    //   return {
+    //     ...state,
+    //     isModalOpen: true,
+        // modalType: "edit",
+        // id: newValue.id,
+      //   title: newValue.title,
+      //   description: newValue.description,
+      // };
+    // }
     case "OPEN_MODAL":
       return { ...state, isModalOpen: true, modalType: "add" };
     case "CLOSE_MODAL":
@@ -56,6 +71,7 @@ const taskReducer = (state = initialState, action) => {
         isModalOpen: false,
         title: "",
         description: "",
+        id: "",
       };
     default:
       console.log("Default action for: ", action);
@@ -105,20 +121,20 @@ const App = () => {
         },
       }
     );
-    const deleteTaskSub = API.graphql(graphqlOperation(onDeleteTask)).subscribe(
-      {
-        next: ({ _, value }) => {
-          console.log("onDeleteList called");
-          dispatch({
-            type: "DELETE_LIST_RESULT",
-            value: value.data.onDeleteTask.id,
-          });
-        },
-      }
-    );
+    // const deleteTaskSub = API.graphql(graphqlOperation(onDeleteTask)).subscribe(
+    //   {
+    //     next: ({ _, value }) => {
+    //       console.log("onDeleteTask called");
+    //       dispatch({
+    //         type: "DELETE_TASK_RESULT",
+    //         value: value.data.onDeleteTask.id,
+    //       });
+    //     },
+    //   }
+    // );
     return () => {
       createTaskSub.unsubscribe();
-      deleteTaskSub.unsubscribe();
+      // deleteTaskSub.unsubscribe();
     };
   }, []);
 
