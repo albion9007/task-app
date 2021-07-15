@@ -39,9 +39,9 @@ const taskReducer = (state = initialState, action) => {
       console.log(action.value);
       deleteTaskById(action.value)
       return { ...state };
-    // case "DELETE_TASK_RESULT":
-    //   newTask = state.lists.filter((item) => item.id !== action.value);
-    //   return { ...state, tasks: newTask };
+    case "DELETE_TASK_RESULT":
+      newTask = state.tasks.filter((item) => item.id !== action.value);
+      return { ...state, tasks: newTask };
     case "EDIT_TASK": {
       const newValue = { ...action.value };
       delete newValue.children;
@@ -123,21 +123,21 @@ const App = () => {
         },
       }
     );
-    // const deleteTaskSub = API.graphql(graphqlOperation(onDeleteTask)).subscribe(
-    //   {
-    //     next: ({ _, value }) => {
-    //       console.log("onDeleteTask called");
-    //       dispatch({
-    //         type: "DELETE_TASK_RESULT",
-    //         value: value.data.onDeleteTask.id,
-    //       });
-    //     },
-    //   }
-    // );
+    const deleteTaskSub = API.graphql(graphqlOperation(onDeleteTask)).subscribe(
+      {
+        next: ({ _, value }) => {
+          console.log("onDeleteTask called");
+          dispatch({
+            type: "DELETE_TASK_RESULT",
+            value: value.data.onDeleteTask.id,
+          });
+        },
+      }
+    );
     return () => {
       createTaskSub.unsubscribe();
       updateTaskSub.unsubscribe();
-      // deleteTaskSub.unsubscribe();
+      deleteTaskSub.unsubscribe();
     };
   }, []);
 
