@@ -47,7 +47,7 @@ const taskReducer = (state = initialState, action) => {
       delete newValue.children;
       delete newValue.listItems;
       delete newValue.dispatch;
-      console.log(action.value);
+      console.log(newValue);
       return {
         ...state,
         isModalOpen: true,

@@ -26,14 +26,15 @@ const TaskModal = ({state, dispatch}) => {
     console.log("Save data with result: ", result);
   };
 
-  async function changeTask() {
+  const changeTask = async () => {
     const { id, title, description } = state;
+    
     const result = await API.graphql(
       graphqlOperation(updateTask, { input: { id, title, description } })
     );
     dispatch({ type: "CLOSE_MODAL" });
     console.log("Edit data with result: ", result);
-  }
+  };
   
   return (
     <Modal open={state.isModalOpen} dimmer="blurring">

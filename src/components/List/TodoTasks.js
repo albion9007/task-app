@@ -5,7 +5,7 @@ function TodoTasks({tasks, dispatch}) {
   return (
     <div>
         {tasks.map((item) => (
-      <Task  key={item.id} dispatch={dispatch}/>))}
+      <Task  key={item.id} {...item} dispatch={dispatch}/>))}
     </div>
   );
 }
