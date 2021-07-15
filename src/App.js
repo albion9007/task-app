@@ -13,7 +13,7 @@ import {
   Icon,
 } from "semantic-ui-react";
 import { deleteTask } from "./graphql/mutations";
-import { onCreateTask, onDeleteTask } from "./graphql/subscriptions";
+import { onCreateTask, onDeleteTask, onUpdateTask } from "./graphql/subscriptions";
 import { listTasks } from "./graphql/queries";
 import TaskModal from "./components/modal/TaskModal";
 Amplify.configure(awsConfig);
@@ -57,6 +57,14 @@ const taskReducer = (state = initialState, action) => {
         description: newValue.description,
       };
     }
+    case "EDIT_TASK_RESULT":
+      const index = state.tasks.findIndex(
+        (item) => item.id === action.value.id
+      );
+      newTask = [...state.tasks];
+      delete action.value.listItems;
+      newTask[index] = action.value;
+      return { ...state, tasks: newTask };
     case "OPEN_MODAL":
       return { ...state, isModalOpen: true, modalType: "add" };
     case "CLOSE_MODAL":
@@ -104,6 +112,17 @@ const App = () => {
         },
       }
     );
+    const updateTaskSub = API.graphql(graphqlOperation(onUpdateTask)).subscribe(
+      {
+        next: ({ _, value }) => {
+          console.log("onUpdateTask called", value);
+          dispatch({
+            type: "EDIT_TASK_RESULT",
+            value: value.data.onUpdateTask,
+          });
+        },
+      }
+    );
     // const deleteTaskSub = API.graphql(graphqlOperation(onDeleteTask)).subscribe(
     //   {
     //     next: ({ _, value }) => {
@@ -117,6 +136,7 @@ const App = () => {
     // );
     return () => {
       createTaskSub.unsubscribe();
+      updateTaskSub.unsubscribe();
       // deleteTaskSub.unsubscribe();
     };
   }, []);
