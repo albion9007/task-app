@@ -1,6 +1,6 @@
 {
     "identityPoolName": "taskappde106242_identitypool_de106242",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "taskapde106242",
     "userPoolName": "taskappde106242_userpool_de106242",
     "autoVerifiedAttributes": [

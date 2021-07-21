@@ -23,5 +23,11 @@
         }
       }
     }
+  },
+  "storage": {
+    "TaskAppBucket": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
