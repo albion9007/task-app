@@ -6,7 +6,12 @@ export default function UploadImages() {
   const [image, setImage] = useState(
     "https://react.semantic-ui.com/images/wireframe/image.png"
   );
-  function handleInputChange(params) {}
+  function handleInputChange(e) {
+    const fileToUpload = e.target.files[0];
+    if (!fileToUpload) return;
+    const fileSampleUrl = URL.createObjectURL(fileToUpload);
+    setImage(fileSampleUrl);
+  }
 
   return (
     <>
