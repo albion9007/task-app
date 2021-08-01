@@ -16,7 +16,6 @@ import {
 } from "./graphql/subscriptions";
 import { listTasks } from "./graphql/queries";
 import TaskModal from "./components/modal/TaskModal";
-import UploadImages from "./components/HandleImages/UploadImages";
 Amplify.configure(awsConfig);
 
 const initialState = {
@@ -163,7 +162,6 @@ const App = () => {
             </Switch>
           </BrowserRouter>
         </div>
-        <UploadImages />
       </Container>
       <TaskModal state={state} dispatch={dispatch} />
     </AmplifyAuthenticator>

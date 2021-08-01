@@ -1,16 +1,19 @@
 import React, { useRef, useState } from "react";
 import { Button, Header, Image } from "semantic-ui-react";
 
-export default function UploadImages() {
+export default function UploadImages({ getSelectedFile }) {
   const inputRef = useRef();
   const [image, setImage] = useState(
     "https://react.semantic-ui.com/images/wireframe/image.png"
   );
+
   function handleInputChange(e) {
     const fileToUpload = e.target.files[0];
     if (!fileToUpload) return;
     const fileSampleUrl = URL.createObjectURL(fileToUpload);
+    console.log(fileSampleUrl);
     setImage(fileSampleUrl);
+    getSelectedFile(fileToUpload);
   }
 
   return (
