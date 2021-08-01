@@ -20,6 +20,10 @@
   margin-left: 3em !important;
 }
 
+.hide {
+  display: none;
+}
+
 .ui.button.floatingButton {
   padding: 0px;
   width: 60px;
@@ -30,8 +34,8 @@
   right: 30px;
   background-color: var(--amplify-primary-color);
   color: var(--amplify-secondary-contrast);
-  display:block;
-  z-index:9998;
+  display: block;
+  z-index: 9998;
 }
 
 .ui.button.floatingButton:hover {
