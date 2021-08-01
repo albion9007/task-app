@@ -7,15 +7,16 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import MainHeader from "./components/MainHeader";
 import NavBar from "./components/NavBar";
-import {
-  Button,
-  Container,
-  Icon,
-} from "semantic-ui-react";
+import { Button, Container, Icon } from "semantic-ui-react";
 import { deleteTask } from "./graphql/mutations";
-import { onCreateTask, onDeleteTask, onUpdateTask } from "./graphql/subscriptions";
+import {
+  onCreateTask,
+  onDeleteTask,
+  onUpdateTask,
+} from "./graphql/subscriptions";
 import { listTasks } from "./graphql/queries";
 import TaskModal from "./components/modal/TaskModal";
+import UploadImages from "./components/HandleImages/UploadImages";
 Amplify.configure(awsConfig);
 
 const initialState = {
@@ -37,7 +38,7 @@ const taskReducer = (state = initialState, action) => {
       return { ...state, tasks: [...action.value, ...state.tasks] };
     case "DELETE_TASK":
       console.log(action.value);
-      deleteTaskById(action.value)
+      deleteTaskById(action.value);
       return { ...state };
     case "DELETE_TASK_RESULT":
       newTask = state.tasks.filter((item) => item.id !== action.value);
@@ -79,7 +80,7 @@ const taskReducer = (state = initialState, action) => {
       console.log("Default action for: ", action);
       return state;
   }
-}
+};
 
 async function deleteTaskById(id) {
   const result = await API.graphql(
@@ -94,7 +95,7 @@ const App = () => {
   const fetchTask = async () => {
     const { data } = await API.graphql(graphqlOperation(listTasks));
     dispatch({ type: "UPDATE_TASK", value: data.listTasks.items });
-  }
+  };
 
   useEffect(() => {
     fetchTask();
@@ -145,13 +146,16 @@ const App = () => {
     <AmplifyAuthenticator>
       <Container style={{ height: "100vh" }}>
         <AmplifySignOut />
-        <Button className="floatingButton" onClick={() => dispatch({ type: "OPEN_MODAL" })}>
+        <Button
+          className="floatingButton"
+          onClick={() => dispatch({ type: "OPEN_MODAL" })}
+        >
           <Icon name="plus" className="floatingButton_icon" />
         </Button>
         <div className="App">
           <MainHeader />
           <BrowserRouter>
-            <NavBar tasks={state.tasks} dispatch={dispatch}/>
+            <NavBar tasks={state.tasks} dispatch={dispatch} />
             <Switch>
               <Route exact path="/" />
               <Route exact path="/todo" />
@@ -159,10 +163,11 @@ const App = () => {
             </Switch>
           </BrowserRouter>
         </div>
+        <UploadImages />
       </Container>
-      <TaskModal state={state} dispatch={dispatch}/>
+      <TaskModal state={state} dispatch={dispatch} />
     </AmplifyAuthenticator>
   );
-}
+};
 
 export default App;
