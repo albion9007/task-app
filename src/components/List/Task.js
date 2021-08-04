@@ -8,8 +8,6 @@ import {
   ListHeader,
   ListDescription,
   Icon,
-  Dimmer,
-  Loader,
 } from "semantic-ui-react";
 
 export default function Task(props) {
@@ -18,8 +16,6 @@ export default function Task(props) {
     "https://react.semantic-ui.com/images/wireframe/image.png"
   );
 
-  const [isLoading, setIsLoading] = useState(true);
-
   const fetchImageUrl = async () => {
     const imageUrl = await Storage.get(imageKey);
     setImageUrl(imageUrl);
@@ -27,24 +23,16 @@ export default function Task(props) {
 
   useEffect(() => {
     if (imageKey) {
-      fetchImageUrl();
+      return fetchImageUrl();
     }
   }, []);
-
-  const content = <Loader />;
 
   return (
     <Container attached>
       <Segment>
         <Grid columns={2} divided>
           <Grid.Column stretched width={4}>
-            <Dimmer.Dimmable
-              dimmed={isLoading}
-              dimmer={{ active: isLoading, content }}
-              as={Image}
-              size="large"
-              src={imageUrl}
-            ></Dimmer.Dimmable>
+            <Image size="large" src={imageUrl} />
           </Grid.Column>
           <Grid.Column>
             <ListHeader as="h1">{title}</ListHeader>
