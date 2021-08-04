@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useEffect, useReducer } from "react";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { AmplifyAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
-import awsConfig from "./aws-exports";
+import awsmobile from "./aws-exports";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import MainHeader from "./components/MainHeader";
@@ -16,7 +16,7 @@ import {
 } from "./graphql/subscriptions";
 import { listTasks } from "./graphql/queries";
 import TaskModal from "./components/modal/TaskModal";
-Amplify.configure(awsConfig);
+Amplify.configure(awsmobile);
 
 const initialState = {
   id: "",
