@@ -13,7 +13,7 @@ export function useS3() {
         app: "task app",
       },
     });
-    console.log("save to S3");
+    console.log("saved to S3");
     return key;
   }
   return [saveToS3];

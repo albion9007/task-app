@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import { Storage } from "aws-amplify";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Header, Image } from "semantic-ui-react";
 
 export default function UploadImages({ getSelectedFile }) {

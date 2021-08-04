@@ -72,8 +72,8 @@ const TaskModal = ({ state, dispatch }) => {
               dispatch({ type: "DESCRIPTION_CHANGED", value: e.target.value })
             }
           ></FormTextArea>
+          <UploadImages getSelectedFile={getSelectedFile} />
         </Form>
-        <UploadImages getSelectedFile={getSelectedFile} />
       </ModalContent>
       <ModalActions>
         <Button negative onClick={() => dispatch({ type: "CLOSE_MODAL" })}>
