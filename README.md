@@ -1,70 +1,133 @@
-# Getting Started with Create React App
+# README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## アプリのタイトル
 
-## Available Scripts
+:clipboard:task-app
 
-In the project directory, you can run:
+## アプリの概要
 
-### `yarn start`
+日々の task 管理をメモの様な形式で行えるように、タイトル、詳細、image 画像も添付できる様にしたものです。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🔗 Links
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://master.d1bgg47sdv69g7.amplifyapp.com/)
 
-### `yarn test`
+https://master.d1bgg47sdv69g7.amplifyapp.com
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## テスト用アカウント :bust_in_silhouette:
 
-### `yarn build`
+Username ：Yuki
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Password ：0416yuki
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 利用方法
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. ユーザー新規登録する:No account? Create account をクリックして、
+   Username 、Password 、Email Address(実在のもの:繰り返し使用可)、Phone Number(無くても可)、を入力し"CREATE ACCOUNT"をクリックする。
+   その後 Confirm Sign up で先ほど登録した Email Address に送られてきた verification code を Confirmation Code に入力し "CONFIRM"ボタンをクリックすることで登録できる。
+   （登録している場合は Username と Password を入力して Sign in する）。
+2. Menu Open をクリックすると、AllTasks(現在の Task と終了した Task が全て表示される), Todo Tasks(現在の Task), Done(終了した Tas)のメニューバーが出現するため、それぞれをクリックすると、
+   必要な task のみ表示される。
+   → 現在は AllTasks のみ表示されている状態。
+3. 新規の Task を作成したい場合は＋ボタンをクリックすると、モーダルが出現し title(必須), description,image をそれぞれ入力・選択後 SAVE ボタンをクリックすれば反映される。
+4. 登録した Task を編集したい場合は鉛筆アイコンをクリックすると再度モーダルが立ち上がるため、title(必須), description,image をそれぞれ編集後 Update ボタンをクリックすれば反映される。
+5. Task を削除したい場合は、ゴミ箱アイコンをクリックすれば削除出来る。
+6. sign out をクリックすれば sign out 出来る。
 
-### `yarn eject`
+## 目指した課題解決
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+task 管理する時に画像を添付する機能を付けることで、より詳細に管理することが出来ると考えた。
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 洗い出した要件
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+:large_blue_circle:要件定義
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<details><summary>機能名</summary>
+*優先順位*
+*目的*
+*詳細*
+*ストーリー（ユースケース）*
+*見積もり（所要時間）*</details>
 
-## Learn More
+<details><summary>ユーザー管理機能</summary>
+**1**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+ユーザーの管理を行うため
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Create account,sign in, sign out を amplify の Auth 機能の Authenticator で作成
 
-### Code Splitting
+1 日以内</details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+<details><summary>Task管理機能(title,description)</summary>
+**2**
 
-### Analyzing the Bundle Size
+Task の管理を行うため
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+新規作成、編集、削除機能
 
-### Making a Progressive Web App
+semantic-ui の Modal 機能, reducer, graphQL, API を使い新規作成、編集
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+3 週間</details>
 
-### Advanced Configuration
+<details><summary>image画像添付機能</summary>
+**3**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+より詳細に Task 管理を行いやすいようにするため
 
-### Deployment
+新規作成、編集に画像添付追加
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+3 週間</details>
 
-### `yarn build` fails to minify
+## 🔗 Links
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+github-URL:octocat:
+
+https://github.com/albion9007/task-app
+
+## 実装予定の機能
+
+:white_circle:現在の Task と終了した Task をそれぞれ表示させる機能。CSS で非表示にさせるなどして、あまり DB や API などの backend 機能に負担をかけないように実装していく予定。
+
+## こだわった機能
+
+:large_orange_diamond:image 画像添付機能。Task に image を添付することで、昔に上げた Task も思い出しやすくするため。また、Task 管理する上でのモチベーションに繋がると考えた。
+image 画像を S3 バケットに uuid を用い保存して,それを API を利用しリストで表示させる。S3 の取り扱い方はまだ理解不十分なため、今後理解を深間ていくことが課題と考える。
+
+## 実装で困ったこと
+
+:white_check_mark: JWTtoken エラーで 1 ヶ月以上解決するまでかかってしまった。
+:arrow_right: ブラウザから情報を amplify の方に送信すると graphQL でエラーが出てしまい、その原因を検証ツールで確認すると、送信された JWTtoken が通常のものよりも短く何故そのエラーが出現するかコードの記述方法を色々試行してみたり、amplify 側の影響かなど確認してみるも特に問題なく結局は chrome の拡張機能の１つの ModHeader を作動させていたことによるものだった。以前学習で使用し、そのままになっていた。これにより、JWTtoken についての理解が出来た。次回こういったエラーが出現した時は safari などの他のブラウザを使用してみる方法なども学習した。
+
+:white_check_mark: props の受け渡し方法につまづいた。
+:arrow_right:task が表示されない事象が起こっていて、react で props の受け渡しが出来ていないことが原因と分かった。親コンポーネントから<TodoTasks tasks={tasks} dispatch={dispatch}/>の様にして渡したい props を子コンポーネントへ渡し、渡された props は子コンポーネントの引数に入れて使用するという基本が分かった。
+
+:white_check_mark: S3Bucket を install したら amplify フォルダが壊れた。
+:arrow_right: S3Bucket を install したら amplify/team-provider-info.json ファイルが破損し、コードが大幅に消えてしまった。この時にバックアップを取っていなかったため非常に困った。amplify pull で aws にある当アプリの amplify コードを install することが出来て解決した。
+これにより、何かを install する前や amplify push する前などはバックアップは必ず取っておくことが大切と分かった。また、もし破損した場合に amplify pull をする選択肢がある事が分かった。また、プロジェクトを共有する際にも amplify pull を利用することが出来ると分かった。
+
+:white_check_mark: admin UI について少し理解出来た。
+:arrow_right:amplify pull 実行時に admin UI を登録しておくことで、pull が実行可能になることや、admin UI で行える管理が出来る事が分かった。
+
+# テーブル設計
+
+## users テーブル
+
+| Column   | Type   | Options     |
+| -------- | ------ | ----------- |
+| name     | string | null: false |
+| email    | string | null: false |
+| password | string | null: false |
+
+### Association
+
+- has_one :Task
+
+## Task テーブル
+
+type: String! # always set to 'task'. used in the SortByTimestamp GSI
+id: ID
+title: String!
+description: String
+imageKey: String
+owner: String
+timestamp: Int!
