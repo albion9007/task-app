@@ -18,9 +18,9 @@ import { useS3 } from "../../hooks/useS3";
 const TaskModal = ({ state, dispatch }) => {
   const [uploadToS3] = useS3();
   const [fileToUpload, setFileToUpload] = useState();
+  const imageKey = uploadToS3(fileToUpload);
 
   const saveTask = async () => {
-    const imageKey = uploadToS3(fileToUpload);
     console.log("imageKey", imageKey);
     const timestamp = Math.floor(Date.now() / 1000);
     const type = "task";
@@ -38,7 +38,9 @@ const TaskModal = ({ state, dispatch }) => {
     const { id, title, description } = state;
 
     const result = await API.graphql(
-      graphqlOperation(updateTask, { input: { id, title, description } })
+      graphqlOperation(updateTask, {
+        input: { id, title, description, imageKey },
+      })
     );
     dispatch({ type: "CLOSE_MODAL" });
     console.log("Edit data with result: ", result);
