@@ -22,6 +22,7 @@ const initialState = {
   id: "",
   title: "",
   description: "",
+  imageKey: null,
   tasks: [],
   isModalOpen: false,
 };
@@ -81,12 +82,12 @@ const taskReducer = (state = initialState, action) => {
   }
 };
 
-async function deleteTaskById(id) {
+const deleteTaskById = async (id) => {
   const result = await API.graphql(
     graphqlOperation(deleteTask, { input: { id } })
   );
   console.log("deleted", result);
-}
+};
 
 const App = () => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
