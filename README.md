@@ -14,6 +14,10 @@
 
 https://master.d1bgg47sdv69g7.amplifyapp.com
 
+github-URL:octocat:
+
+https://github.com/albion9007/task-app
+
 ## テスト用アカウント :bust_in_silhouette:
 
 Username ：Yuki
@@ -27,7 +31,7 @@ Password ：0416yuki
    その後 Confirm Sign up で先ほど登録した Email Address に送られてきた verification code を Confirmation Code に入力し "CONFIRM"ボタンをクリックすることで登録できる。
    （登録している場合は Username と Password を入力して Sign in する）。
 2. Menu Open をクリックすると、AllTasks(現在の Task と終了した Task が全て表示される), Todo Tasks(現在の Task), Done(終了した Tas)のメニューバーが出現するため、それぞれをクリックすると、
-   必要な task のみ表示される。
+   必要な task のみ表示される。  
    → 現在は AllTasks のみ表示されている状態。
 3. 新規の Task を作成したい場合は＋ボタンをクリックすると、モーダルが出現し title(必須), description,image をそれぞれ入力・選択後 SAVE ボタンをクリックすれば反映される。
 4. 登録した Task を編集したい場合は鉛筆アイコンをクリックすると再度モーダルが立ち上がるため、title(必須), description,image をそれぞれ編集後 Update ボタンをクリックすれば反映される。
@@ -78,12 +82,6 @@ semantic-ui の Modal 機能, reducer, graphQL, API を使い新規作成、編�
 
 3 週間</details>
 
-## 🔗 Links
-
-github-URL:octocat:
-
-https://github.com/albion9007/task-app
-
 ## 実装予定の機能
 
 :white_circle:現在の Task と終了した Task をそれぞれ表示させる機能。CSS で非表示にさせるなどして、あまり DB や API などの backend 機能に負担をかけないように実装していく予定。
@@ -95,17 +93,17 @@ image 画像を S3 バケットに uuid を用い保存して,それを API を�
 
 ## 実装で困ったこと
 
-:white_check_mark: JWTtoken エラーで 1 ヶ月以上解決するまでかかってしまった。
+:white_check_mark: JWTtoken エラーで 1 ヶ月以上解決するまでかかってしまった。  
 :arrow_right: ブラウザから情報を amplify の方に送信すると graphQL でエラーが出てしまい、その原因を検証ツールで確認すると、送信された JWTtoken が通常のものよりも短く何故そのエラーが出現するかコードの記述方法を色々試行してみたり、amplify 側の影響かなど確認してみるも特に問題なく結局は chrome の拡張機能の１つの ModHeader を作動させていたことによるものだった。以前学習で使用し、そのままになっていた。これにより、JWTtoken についての理解が出来た。次回こういったエラーが出現した時は safari などの他のブラウザを使用してみる方法なども学習した。
 
-:white_check_mark: props の受け渡し方法につまづいた。
+:white_check_mark: props の受け渡し方法につまづいた。  
 :arrow_right:task が表示されない事象が起こっていて、react で props の受け渡しが出来ていないことが原因と分かった。親コンポーネントから<TodoTasks tasks={tasks} dispatch={dispatch}/>の様にして渡したい props を子コンポーネントへ渡し、渡された props は子コンポーネントの引数に入れて使用するという基本が分かった。
 
-:white_check_mark: S3Bucket を install したら amplify フォルダが壊れた。
+:white_check_mark: S3Bucket を install したら amplify フォルダが壊れた。  
 :arrow_right: S3Bucket を install したら amplify/team-provider-info.json ファイルが破損し、コードが大幅に消えてしまった。この時にバックアップを取っていなかったため非常に困った。amplify pull で aws にある当アプリの amplify コードを install することが出来て解決した。
 これにより、何かを install する前や amplify push する前などはバックアップは必ず取っておくことが大切と分かった。また、もし破損した場合に amplify pull をする選択肢がある事が分かった。また、プロジェクトを共有する際にも amplify pull を利用することが出来ると分かった。
 
-:white_check_mark: admin UI について少し理解出来た。
+:white_check_mark: admin UI について少し理解出来た。  
 :arrow_right:amplify pull 実行時に admin UI を登録しておくことで、pull が実行可能になることや、admin UI で行える管理が出来る事が分かった。
 
 # テーブル設計
