@@ -56,6 +56,7 @@ const taskReducer = (state = initialState, action) => {
         id: newValue.id,
         title: newValue.title,
         description: newValue.description,
+        imageKey: newValue.imageKey,
       };
     }
     case "EDIT_TASK_RESULT":
@@ -74,6 +75,7 @@ const taskReducer = (state = initialState, action) => {
         isModalOpen: false,
         title: "",
         description: "",
+        imageKey: null,
         id: "",
       };
     default:
@@ -119,7 +121,7 @@ const App = () => {
           console.log("onUpdateTask called", value);
           dispatch({
             type: "EDIT_TASK_RESULT",
-            value: value.data.onUpdateTask,
+            value: [value.data.onUpdateTask],
           });
         },
       }
