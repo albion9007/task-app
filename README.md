@@ -118,10 +118,12 @@ image 画像を S3 バケットに uuid を用い保存して,それを API を�
 
 ## Task テーブル
 
-type: String! # always set to 'task'. used in the SortByTimestamp GSI
-id: ID
-title: String!
-description: String
-imageKey: String
-owner: String
-timestamp: Int!
+| Column      | Type   | Options     |
+| ----------- | ------ | ----------- |
+| type        | string | null: false |
+| id          | ID     | null: false |
+| title       | string | null: false |
+| description | string |             |
+| imageKey    | string |             |
+| owner       | string | null: false |
+| timestamp   | Int    | null: false |
