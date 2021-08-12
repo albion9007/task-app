@@ -112,10 +112,6 @@ image 画像を S3 バケットに uuid を用い保存して,それを API を�
 | email    | string | null: false |
 | password | string | null: false |
 
-### Association
-
-- has_one :Task
-
 ## Task テーブル
 
 | Column      | Type   | Options     |
